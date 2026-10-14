@@ -1,0 +1,67 @@
+{
+    "model_name": "Random Forest Regressor & Classifier",
+    "dataset_size": 1500,
+    "train_samples": 1200,
+    "test_samples": 300,
+    "test_split_ratio": 0.2,
+    "random_state": 42,
+    "metrics": {
+        "mae": 3.525,
+        "rmse": 4.485,
+        "r2_score": 0.7178,
+        "classifier_accuracy": 84.33
+    },
+    "feature_importances": [
+        {
+            "feature": "previous_marks",
+            "importance": 0.5153,
+            "percentage": 51.53
+        },
+        {
+            "feature": "study_hours",
+            "importance": 0.2265,
+            "percentage": 22.65
+        },
+        {
+            "feature": "attendance",
+            "importance": 0.0693,
+            "percentage": 6.93
+        },
+        {
+            "feature": "assignment_completion",
+            "importance": 0.0641,
+            "percentage": 6.41
+        },
+        {
+            "feature": "backlog_count",
+            "importance": 0.0584,
+            "percentage": 5.84
+        },
+        {
+            "feature": "sleep_hours",
+            "importance": 0.0566,
+            "percentage": 5.66
+        },
+        {
+            "feature": "extracurricular_participation",
+            "importance": 0.0099,
+            "percentage": 0.99
+        }
+    ],
+    "hyperparameters": {
+        "n_estimators": 120,
+        "max_depth": 12,
+        "min_samples_split": 4,
+        "min_samples_leaf": 2
+    },
+    "target_variable": "final_marks",
+    "feature_columns": [
+        "previous_marks",
+        "attendance",
+        "study_hours",
+        "assignment_completion",
+        "backlog_count",
+        "sleep_hours",
+        "extracurricular_participation"
+    ]
+}
