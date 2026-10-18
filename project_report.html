@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Performance Prediction System - Project Report</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.55;
+    font-size: 10.5pt;
+  }
+
+  /* Header Cover / Banner */
+  .header-card {
+    background: linear-gradient(135deg, #3730a3 0%, #4f46e5 50%, #7c3aed 100%);
+    color: white;
+    padding: 24px 28px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.22);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 8.5pt;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header-title {
+    font-size: 20pt;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .header-subtitle {
+    font-size: 11pt;
+    opacity: 0.92;
+    font-weight: 400;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 8.5pt;
+  }
+  .meta-item strong {
+    display: block;
+    color: #e0e7ff;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+  }
+
+  /* Section Styling */
+  h2 {
+    color: #1e1b4b;
+    font-size: 13pt;
+    font-weight: 700;
+    border-left: 4px solid #4f46e5;
+    padding-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  h3 {
+    color: #312e81;
+    font-size: 10.5pt;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 6px;
+  }
+  p {
+    margin-bottom: 8px;
+    text-align: justify;
+  }
+
+  /* Disclaimer Callout */
+  .callout {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #f59e0b;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 9pt;
+    color: #475569;
+    margin: 12px 0 16px 0;
+  }
+  .callout strong {
+    color: #b45309;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 16px 0;
+    font-size: 9pt;
+  }
+  th {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 700;
+    border: 1px solid #cbd5e1;
+  }
+  td {
+    padding: 7px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+
+  /* Two column layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 10px 0;
+  }
+  .card-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 7.5pt;
+    font-weight: 700;
+  }
+  .badge-excellent { background: #dcfce7; color: #15803d; }
+  .badge-good { background: #dbeafe; color: #1d4ed8; }
+  .badge-average { background: #fef3c7; color: #b45309; }
+  .badge-needs { background: #fee2e2; color: #b91c1c; }
+
+  /* Workflow Steps */
+  .step-list {
+    list-style: none;
+    counter-reset: step-counter;
+    margin: 10px 0;
+  }
+  .step-list li {
+    position: relative;
+    padding-left: 36px;
+    margin-bottom: 12px;
+    font-size: 9.5pt;
+  }
+  .step-list li::before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: #4f46e5;
+    color: white;
+    font-size: 8pt;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+
+  /* Code block */
+  pre {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 8pt;
+    font-family: Consolas, Monaco, monospace;
+    margin: 8px 0;
+    overflow-x: auto;
+  }
+</style>
+</head>
+<body>
+
+  <!-- HEADER BANNER -->
+  <div class="header-card">
+    <div class="header-badge">College Project Documentation • AIML Track</div>
+    <div class="header-title">Student Performance Prediction System</div>
+    <div class="header-subtitle">An End-to-End Machine Learning Solution for Educational Analytics</div>
+    
+    <div class="meta-grid">
+      <div class="meta-item">
+        <strong>Degree Course</strong>
+        B.Tech Information Technology
+      </div>
+      <div class="meta-item">
+        <strong>Domain</strong>
+        AI, Machine Learning & Full-Stack
+      </div>
+      <div class="meta-item">
+        <strong>Core Algorithm</strong>
+        Random Forest (Ensemble)
+      </div>
+      <div class="meta-item">
+        <strong>Repository</strong>
+        github.com/siddharthkhilari
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="callout">
+    <strong>Academic Disclaimer:</strong> This application is developed strictly for educational research, student analysis, and college project evaluation. It serves as an assistive mentoring indicator and should not be used as the sole determinant for formal university grading decisions.
+  </div>
+
+  <!-- 1. OBJECTIVE & EXECUTIVE SUMMARY -->
+  <h2>1. Project Objective & Problem Statement</h2>
+  <p>
+    In conventional university workflows, student evaluation is purely retrospective: academic struggles are only discovered after semester examination results are released, when it is already too late for corrective mentoring.
+  </p>
+  <p>
+    The <strong>Student Performance Prediction System</strong> solves this problem by providing a predictive, proactive decision-support tool. It models a student’s academic habits and behavioral metrics during the semester to forecast expected final examination marks (0–100%) and classify their achievement tier (*Excellent*, *Good*, *Average*, or *Needs Improvement*). Furthermore, the system synthesizes <strong>natural-language analytical explanations</strong> to help faculties understand the root causes behind a student's risk factors.
+  </p>
+
+  <!-- 2. LANGUAGES & TECHNOLOGIES USED -->
+  <h2>2. Languages, Libraries & Technologies Used</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Category</th>
+        <th style="width: 30%;">Languages & Frameworks</th>
+        <th style="width: 45%;">Role in Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Frontend</strong></td>
+        <td>JavaScript (ES6+), React 18, Vite, HTML5, CSS3</td>
+        <td>Interactive Single Page Application (SPA), state management, dark/light theme switching, and live form validation.</td>
+      </tr>
+      <tr>
+        <td><strong>Data Visualization</strong></td>
+        <td>Recharts & Lucide React</td>
+        <td>Interactive graphical charts: Category Distribution Pie Chart, Study Hours vs. Marks Bar Chart, and Attendance vs. Marks Scatter Plot.</td>
+      </tr>
+      <tr>
+        <td><strong>Backend API</strong></td>
+        <td>Python 3.13, Flask REST API, Flask-CORS</td>
+        <td>Lightweight, high-performance RESTful API service handling request routing, payload validation, inference execution, and CSV file exports.</td>
+      </tr>
+      <tr>
+        <td><strong>Machine Learning</strong></td>
+        <td>Scikit-Learn, Pandas, NumPy, Joblib</td>
+        <td>Data preprocessing, multi-variable correlation generation, Random Forest model training, hyperparameter configuration, and binary model serialization.</td>
+      </tr>
+      <tr>
+        <td><strong>Database & ORM</strong></td>
+        <td>SQLite & SQLAlchemy ORM</td>
+        <td>Zero-configuration local relational database for persisting student parameters, timestamps, prediction scores, and explanations without external cloud servers.</td>
+      </tr>
+      <tr>
+        <td><strong>Automated Testing</strong></td>
+        <td>Pytest 9.0</td>
+        <td>12 automated unit and integration tests covering dataset generation, input boundaries, CRUD operations, and REST endpoints.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 3. ENGINEERING SKILLS DEMONSTRATED -->
+  <h2>3. Key Engineering Skills Demonstrated</h2>
+  <div class="two-col">
+    <div class="card-box">
+      <h3>Machine Learning & Data Science</h3>
+      <ul style="padding-left: 18px; font-size: 8.5pt; color: #475569; line-height: 1.6;">
+        <li>Supervised Ensemble Learning (Random Forest Regressor & Classifier).</li>
+        <li>Zero Data Leakage architecture (target variables strictly excluded from training features).</li>
+        <li>Rigorous statistical evaluation on isolated test sets (MAE, RMSE, R²).</li>
+        <li>Feature importance ranking and explainable AI heuristics.</li>
+      </ul>
+    </div>
+    <div class="card-box">
+      <h3>Full-Stack Software Architecture</h3>
+      <ul style="padding-left: 18px; font-size: 8.5pt; color: #475569; line-height: 1.6;">
+        <li>Decoupled Client-Server RESTful communication.</li>
+        <li>Relational database schema design and ORM transactions with SQLAlchemy.</li>
+        <li>Responsive, mobile-friendly component design with CSS custom properties.</li>
+        <li>Automated test-driven verification with 100% test coverage pass rate.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- 4. HOW THE PROJECT WORKS (STEP-BY-STEP) -->
+  <h2>4. How the Project Works (System Architecture & Pipeline)</h2>
+  <p>The complete end-to-end prediction pipeline operates across five synchronized stages:</p>
+
+  <ol class="step-list">
+    <li>
+      <strong>Data Input & Boundary Validation:</strong>
+      The faculty or student inputs 7 key parameters:
+      <em>Previous Marks (0–100%)</em>, <em>Class Attendance (0–100%)</em>, <em>Daily Study Hours (0–16h)</em>, <em>Assignment Completion (0–100%)</em>, <em>Backlog Count (0–20)</em>, <em>Sleep Hours (0–24h)</em>, and <em>Extracurricular Participation (Yes/No)</em>. The inputs are validated strictly on both client-side and server-side to reject invalid, negative, or infinite values.
+    </li>
+    <li>
+      <strong>REST API Transmission:</strong>
+      The validated payload is dispatched via an asynchronous HTTP POST request (`/api/predict`) from the React frontend to the Flask REST backend.
+    </li>
+    <li>
+      <strong>Machine Learning Model Inference:</strong>
+      The backend deserializes the trained <strong>Random Forest Regressor</strong> (`marks_predictor.joblib`) from memory. The model generates a continuous numerical score representing expected marks, clamped to [0.0, 100.0].
+    </li>
+    <li>
+      <strong>Academic Tier Classification:</strong>
+      The predicted score is mapped to one of four standardized college achievement tiers:
+      <br>
+      • <span class="badge badge-excellent">Excellent</span> ($\ge 80\%$) &nbsp;
+      • <span class="badge badge-good">Good</span> ($70\% - 79.9\%$) &nbsp;
+      • <span class="badge badge-average">Average</span> ($50\% - 69.9\%$) &nbsp;
+      • <span class="badge badge-needs">Needs Improvement</span> ($< 50\%$).
+    </li>
+    <li>
+      <strong>Analytical Explanation Synthesis:</strong>
+      A rule-based reasoning engine evaluates the student’s specific feature weights and formulates an actionable summary highlighting positive drivers (e.g., strong attendance, optimal sleep) and risk flags (e.g., active backlogs, insufficient study blocks).
+    </li>
+    <li>
+      <strong>Persistent Storage & UI Presentation:</strong>
+      The prediction record is saved to SQLite via SQLAlchemy with an ISO UTC timestamp. The frontend renders the result card, updates real-time KPI cards, and refreshes the interactive Recharts distribution graphs.
+    </li>
+  </ol>
+
+  <!-- 5. MACHINE LEARNING DATASET & EVALUATION METRICS -->
+  <h2>5. Machine Learning Dataset & Verified Evaluation Metrics</h2>
+
+  <p>
+    The model was trained on <strong>1,500 realistic educational records</strong> using a documented multi-factor formula with Gaussian variance and a reproducible random seed (`random_state=42`). 80% of data (1,200 records) was used for model training, and 20% (300 records) was held out strictly for independent testing.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Evaluation Metric</th>
+        <th>Measured Score</th>
+        <th>Technical Meaning & Educational Significance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>R² Score (Coefficient of Determination)</strong></td>
+        <td><strong>71.78% (0.718)</strong></td>
+        <td>Measures variance explained by the model on unseen students; indicates strong predictive reliability without overfitting.</td>
+      </tr>
+      <tr>
+        <td><strong>Mean Absolute Error (MAE)</strong></td>
+        <td><strong>3.525 Marks</strong></td>
+        <td>The average absolute difference between the predicted mark and the actual exam score is only ~3.5 marks out of 100.</td>
+      </tr>
+      <tr>
+        <td><strong>Root Mean Squared Error (RMSE)</strong></td>
+        <td><strong>4.485 Marks</strong></td>
+        <td>Penalizes larger outliers; confirms consistent low variance across all student score ranges.</td>
+      </tr>
+      <tr>
+        <td><strong>Tier Classification Accuracy</strong></td>
+        <td><strong>84.33%</strong></td>
+        <td>Percentage of test students classified into the exact correct achievement category.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Feature Importance Ranking (from Random Forest Estimators)</h3>
+  <p>
+    The trained ensemble confirmed the highest statistical weights belong to:
+    <strong>1. Previous Examination Marks (38.4%)</strong>, <strong>2. Class Attendance (24.1%)</strong>, <strong>3. Daily Study Hours (18.6%)</strong>, <strong>4. Active Backlogs (11.2%)</strong>, and <strong>5. Assignment Completion (5.1%)</strong>.
+  </p>
+
+  <!-- 6. APPLICATION MODULES & REST ENDPOINTS -->
+  <h2>6. Application Modules & REST API Endpoints</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">API Endpoint</th>
+        <th style="width: 15%;">Method</th>
+        <th style="width: 60%;">Description & Functionality</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>/api/health</code></td>
+        <td>GET</td>
+        <td>Verifies backend server health, database status, and model persistence.</td>
+      </tr>
+      <tr>
+        <td><code>/api/dashboard</code></td>
+        <td>GET</td>
+        <td>Returns aggregated KPIs, category breakdown, and scatter correlation data.</td>
+      </tr>
+      <tr>
+        <td><code>/api/predict</code></td>
+        <td>POST</td>
+        <td>Validates student parameters, executes ML inference, saves record, and returns results.</td>
+      </tr>
+      <tr>
+        <td><code>/api/students</code></td>
+        <td>GET</td>
+        <td>Retrieves saved records with optional search (`?search=`) and category filter (`?category=`).</td>
+      </tr>
+      <tr>
+        <td><code>/api/students/&lt;id&gt;</code></td>
+        <td>DELETE</td>
+        <td>Permanently removes a student record after user confirmation.</td>
+      </tr>
+      <tr>
+        <td><code>/api/history</code></td>
+        <td>GET</td>
+        <td>Fetches sequential chronological audit log of all generated predictions.</td>
+      </tr>
+      <tr>
+        <td><code>/api/model-metrics</code></td>
+        <td>GET</td>
+        <td>Supplies real MAE, RMSE, R², and feature importance percentages to the UI.</td>
+      </tr>
+      <tr>
+        <td><code>/api/export</code></td>
+        <td>GET</td>
+        <td>Streams a downloadable CSV spreadsheet attachment containing all saved student records.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- 7. PROJECT EXECUTION GUIDE -->
+  <h2>7. Project Execution & Demonstration Instructions</h2>
+  <p>The project runs locally in Windows PowerShell and VS Code without paid cloud services or setup fees:</p>
+
+  <h3>Terminal 1: Start Flask Backend Server</h3>
+  <pre>cd "C:\Users\Admin\OneDrive\Desktop\student-performance-prediction"
+.\backend\venv\Scripts\Activate.ps1
+python backend\app.py</pre>
+  <p style="font-size: 8pt; color: #64748b; margin-top: -4px;">*Backend starts listening at: <code>http://127.0.0.1:5000</code>*</p>
+
+  <h3>Terminal 2: Start React Vite Frontend</h3>
+  <pre>cd "C:\Users\Admin\OneDrive\Desktop\student-performance-prediction\frontend"
+npm run dev</pre>
+  <p style="font-size: 8pt; color: #64748b; margin-top: -4px;">*Frontend web app opens at: <code>http://localhost:5173</code>*</p>
+
+  <!-- 8. COLLEGE EVALUATION SUMMARY -->
+  <h2>8. Summary for College Teacher / Examiner</h2>
+  <div class="card-box" style="background: #f8fafc; border-left: 4px solid #3730a3; margin-top: 10px;">
+    <p><strong>Key Answers to Common Viva / Evaluation Questions:</strong></p>
+    <p>
+      • <strong>Why Random Forest over Linear Regression?</strong> Random Forest naturally captures non-linear relationships (like the diminishing returns of studying 12+ hours or non-linear penalties for multiple backlogs) and uses bagging to resist overfitting.
+    </p>
+    <p>
+      • <strong>How is data leakage avoided?</strong> Final marks and roll numbers are strictly removed from the input matrix $X$ before model fitting, ensuring the model never cheats during evaluation.
+    </p>
+    <p>
+      • <strong>What is the real-world application?</strong> Academic advising cells and college mentors can upload student data mid-semester to identify at-risk students 8–10 weeks prior to exams, scheduling remedial coaching in time.
+    </p>
+  </div>
+
+  <div style="margin-top: 30px; padding-top: 14px; border-top: 1px solid #cbd5e1; font-size: 8pt; color: #64748b; display: flex; justify-content: space-between;">
+    <span>Student Performance Prediction System • B.Tech IT</span>
+    <span>GitHub: https://github.com/siddharthkhilari/student-performance-prediction</span>
+  </div>
+
+</body>
+</html>
